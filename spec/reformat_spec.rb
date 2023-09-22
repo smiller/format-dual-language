@@ -5,7 +5,7 @@ require_relative '../lib/formatter'
 RSpec.describe "cli for formatter" do
 
   before do
-    FileUtils.rm_r("spec/tmp_files")
+    FileUtils.rm_r("spec/tmp_files") if Dir.exist?("spec/tmp_files")
     FileUtils.mkdir("spec/tmp_files")
   end
 
