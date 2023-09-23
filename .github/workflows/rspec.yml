@@ -11,6 +11,7 @@ jobs:
           bundler-cache: true
       - name: Run tests
         uses: mathiasvr/command-output@v2.0.0
+        continue-on-error: true
         id: tests
         with:
           run: COVERAGE=true bundle exec rspec
