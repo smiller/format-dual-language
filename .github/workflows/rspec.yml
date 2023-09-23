@@ -15,7 +15,7 @@ jobs:
         id: tests
         with:
           run: COVERAGE=true bundle exec rspec
-      - run: echo "${{ steps.tests.outputs.stdout }}" >> $GITHUB_STEP_SUMMARY
+      - run: echo "${{ steps.tests.outputs.stderr }}" >> $GITHUB_STEP_SUMMARY
         if: ${{ steps.tests.outputs.stderr }}
       - name: Upload simplecov results
         uses: actions/upload-artifact@master
