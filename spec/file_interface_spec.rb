@@ -18,7 +18,9 @@ RSpec.describe FileInterface do
     end
 
     describe "no --in argument" do
-      let(:ui) { FileInterface.new(options: {out: "spec/tmp_files/actual.txt"}) }
+      # we're passing in a dummy stderr so we don't pollute actual stderr from file_interface_spec.
+      # cli_spec verifies that the errors are passed to the real $stderr and do show up.
+      let(:ui) { FileInterface.new(options: {out: "spec/tmp_files/actual.txt"}, stderr: StringIO.new) }
 
       it "has expected error message" do
         ui.validate
@@ -31,7 +33,7 @@ RSpec.describe FileInterface do
     end
 
     describe "no --out argument" do
-      let(:ui) { FileInterface.new(options: {in: "spec/example_files/input.txt"}) }
+      let(:ui) { FileInterface.new(options: {in: "spec/example_files/input.txt"}, stderr: StringIO.new) }
 
       it "has expected error message" do
         ui.validate
@@ -44,7 +46,7 @@ RSpec.describe FileInterface do
     end
 
     describe "input file doesn't exist (and it should)" do
-      let(:ui) { FileInterface.new(options: {in: "spec/example_files/macavitys_not_there.txt", out: "spec/tmp_files/actual.txt"}) }
+      let(:ui) { FileInterface.new(options: {in: "spec/example_files/macavitys_not_there.txt", out: "spec/tmp_files/actual.txt"}, stderr: StringIO.new) }
 
       it "has expected error message" do
         ui.validate
@@ -57,7 +59,7 @@ RSpec.describe FileInterface do
     end
 
     describe "output file already exists (and it shouldn't)" do
-      let(:ui) { FileInterface.new(options: {in: "spec/example_files/input.txt", out: "spec/example_files/input.txt"}) }
+      let(:ui) { FileInterface.new(options: {in: "spec/example_files/input.txt", out: "spec/example_files/input.txt"}, stderr: StringIO.new) }
 
       it "has expected error message" do
         ui.validate
