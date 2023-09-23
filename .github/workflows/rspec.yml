@@ -15,7 +15,7 @@ jobs:
         with:
           run: COVERAGE=true bundle exec rspec
       - name: Add errors, if any, to step summary
-        if: always()
+        if: ${{ steps.tests.outputs.stderr }}
         run: echo "${{ steps.tests.outputs.stderr }}" >> $GITHUB_STEP_SUMMARY
       - name: Upload simplecov results
         uses: actions/upload-artifact@master
