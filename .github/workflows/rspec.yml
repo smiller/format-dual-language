@@ -10,8 +10,11 @@ jobs:
         with:
           bundler-cache: true
       - name: Run tests
-        run: |
-          echo "${COVERAGE=true bundle exec rspec}" >> $GITHUB_STEP_SUMMARY
+        uses: mathiasvr/command-output@v2.0.0
+        id: tests
+        with:
+          run: COVERAGE=true bundle exec rspec
+      - run: echo ${{ steps.today.outputs }} >> $GITHUB_STEP_SUMMARY
       - name: Upload simplecov results
         uses: actions/upload-artifact@master
         if: always()
