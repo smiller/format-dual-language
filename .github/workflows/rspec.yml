@@ -11,13 +11,11 @@ jobs:
           bundler-cache: true
       - name: Run tests
         uses: mathiasvr/command-output@v2.0.0
-        if: always()
         id: tests
         with:
           run: COVERAGE=true bundle exec rspec
-      - run: |
-          echo "${{ steps.tests.outputs.stderr }}" >> $GITHUB_STEP_SUMMARY
-        if: ${{ steps.tests.outputs.stderr }}
+      - run: echo "${{ steps.tests.outputs.stderr }}" >> $GITHUB_STEP_SUMMARY
+        if: always()
       - name: Upload simplecov results
         uses: actions/upload-artifact@master
         if: always()
