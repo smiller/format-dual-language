@@ -11,11 +11,7 @@ jobs:
           bundler-cache: true
       - name: Run tests
         run: |
-          bundle exec rspec
-      - name: Add simplecov summary
-        uses: aki77/simplecov-report-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          COVERAGE=true bundle exec rspec
       - name: Upload simplecov results
         uses: actions/upload-artifact@master
         if: always()
