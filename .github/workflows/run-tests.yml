@@ -22,3 +22,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
         if: always()
+      - name: Upload coverage results
+        uses: actions/upload-artifact@master
+        with:
+          name: coverage-report
+          path: coverage
+        if: always()
