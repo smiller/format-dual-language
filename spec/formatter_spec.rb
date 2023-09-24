@@ -1,4 +1,4 @@
-require_relative '../lib/formatter'
+require 'formatter'
 
 RSpec.describe Formatter do
 
