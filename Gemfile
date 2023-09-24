@@ -4,4 +4,5 @@ ruby "3.2.2"
 
 group :test do
   gem "rspec"
+  gem "simplecov"
 end
