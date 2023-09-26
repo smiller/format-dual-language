@@ -2,6 +2,11 @@ require_relative 'formatter'
 
 class Processor
 
+  ERR_INPUT_REQ = "-i FILE option for input file required".freeze
+  ERR_OUTPUT_REQ = "-o FILE option for output file required".freeze
+  ERR_INPUT_MISSING = "input file must exist".freeze
+  ERR_OUTPUT_MISSING = "output file must not exist".freeze
+
   attr_accessor :errors
 
   def initialize(options:, stderr: $stderr)
@@ -13,17 +18,17 @@ class Processor
     @errors = []
 
     if !@options.has_key?(:in)
-      @errors << "-i FILE option for input file required"
+      @errors << ERR_INPUT_REQ
     end
     if !@options.has_key?(:out)
-      @errors << "-o FILE option for output file required"
+      @errors << ERR_OUTPUT_REQ
     end
 
     if @options.include?(:in) && !File.file?(@options[:in])
-      @errors << "input file must exist"
+      @errors << ERR_INPUT_MISSING
     end
     if @options.include?(:out) && File.file?(@options[:out])
-      @errors << "output file must not exist"
+      @errors << ERR_OUTPUT_MISSING
     end
   end
 
