@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require_relative 'formatter'
 
 class Processor
 
-  ERR_INPUT_REQ = "-i FILE option for input file required".freeze
-  ERR_OUTPUT_REQ = "-o FILE option for output file required".freeze
-  ERR_INPUT_MISSING = "input file must exist".freeze
-  ERR_OUTPUT_MISSING = "output file must not exist".freeze
+  ERR_INPUT_REQ = "-i FILE option for input file required"
+  ERR_OUTPUT_REQ = "-o FILE option for output file required"
+  ERR_INPUT_MISSING = "input file must exist"
+  ERR_OUTPUT_MISSING = "output file must not exist"
 
   attr_accessor :errors
 
