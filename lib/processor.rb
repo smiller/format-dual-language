@@ -4,10 +4,10 @@ require_relative 'formatter'
 
 class Processor
 
-  ERR_INPUT_REQ = "-i FILE option for input file required"
-  ERR_OUTPUT_REQ = "-o FILE option for output file required"
-  ERR_INPUT_MISSING = "input file must exist"
-  ERR_OUTPUT_MISSING = "output file must not exist"
+  ERROR_INPUT_OPTION_MISSING = "-i FILE option for input file required"
+  ERROR_OUTPUT_OPTION_MISSING = "-o FILE option for output file required"
+  ERROR_INPUT_FILE_NOT_FOUND = "input file must exist"
+  ERROR_OUTPUT_FILE_FOUND = "output file must not exist"
 
   attr_accessor :errors
 
@@ -20,17 +20,17 @@ class Processor
     @errors = []
 
     if !@options.has_key?(:in)
-      @errors << ERR_INPUT_REQ
+      @errors << ERROR_INPUT_OPTION_MISSING
     end
     if !@options.has_key?(:out)
-      @errors << ERR_OUTPUT_REQ
+      @errors << ERROR_OUTPUT_OPTION_MISSING
     end
 
     if @options.include?(:in) && !File.file?(@options[:in])
-      @errors << ERR_INPUT_MISSING
+      @errors << ERROR_INPUT_FILE_NOT_FOUND
     end
     if @options.include?(:out) && File.file?(@options[:out])
-      @errors << ERR_OUTPUT_MISSING
+      @errors << ERROR_OUTPUT_FILE_FOUND
     end
   end
 
