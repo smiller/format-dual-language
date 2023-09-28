@@ -7,14 +7,15 @@ RSpec.describe Processor do
     FileUtils.mkdir("spec/tmp_files")
   end
 
+  let(:ui) { described_class.new(options: options, stderr: StringIO.new) }
+
   describe "unhappy paths" do
     describe "multiple errors can appear" do
-      let(:ui) { described_class.new(options: {},
-                                     stderr: StringIO.new) }
+      let(:options) { {} }
       it "has both expected error messages" do
         ui.validate
-        expect(ui.errors).to match_array(["-i FILE option for input file required",
-                                          "-o FILE option for output file required"])
+        expect(ui.errors).to match_array([described_class::ERROR_INPUT_OPTION_MISSING,
+                                          described_class::ERROR_OUTPUT_OPTION_MISSING])
       end
       it "does not continue after failing validation" do
         expect(ui).not_to receive(:process_after_validation)
@@ -23,12 +24,11 @@ RSpec.describe Processor do
     end
 
     describe "no --in argument" do
-      let(:ui) { described_class.new(options: { out: "spec/tmp_files/actual.txt" },
-                                     stderr: StringIO.new) }
+      let(:options) { { out: "spec/tmp_files/actual.txt" } }
 
       it "has expected error message" do
         ui.validate
-        expect(ui.errors).to match_array(["-i FILE option for input file required"])
+        expect(ui.errors).to match_array([described_class::ERROR_INPUT_OPTION_MISSING])
       end
 
       it "does not continue after failing validation" do
@@ -38,12 +38,11 @@ RSpec.describe Processor do
     end
 
     describe "no --out argument" do
-      let(:ui) { described_class.new(options: { in: "spec/example_files/input.txt" },
-                                     stderr: StringIO.new) }
+      let(:options) { { in: "spec/example_files/input.txt" } }
 
       it "has expected error message" do
         ui.validate
-        expect(ui.errors).to match_array(["-o FILE option for output file required"])
+        expect(ui.errors).to match_array([described_class::ERROR_OUTPUT_OPTION_MISSING])
       end
 
       it "does not continue after failing validation" do
@@ -53,15 +52,11 @@ RSpec.describe Processor do
     end
 
     describe "input file doesn't exist (and it should)" do
-      let(:ui) { described_class.new(options: {
-                                       in: "spec/example_files/macavitys_not_there.txt",
-                                       out: "spec/tmp_files/actual.txt"
-                                     },
-                                     stderr: StringIO.new) }
+      let(:options) { { in: "spec/example_files/macavitys_not_there.txt", out: "spec/tmp_files/actual.txt" } }
 
       it "has expected error message" do
         ui.validate
-        expect(ui.errors).to match_array(["input file must exist"])
+        expect(ui.errors).to match_array([described_class::ERROR_INPUT_FILE_NOT_FOUND])
       end
 
       it "does not continue after failing validation" do
@@ -71,15 +66,11 @@ RSpec.describe Processor do
     end
 
     describe "output file already exists (and it shouldn't)" do
-      let(:ui) { described_class.new(options: {
-                                       in: "spec/example_files/input.txt",
-                                       out: "spec/example_files/input.txt"
-                                     },
-                                     stderr: StringIO.new) }
+      let(:options) { { in: "spec/example_files/input.txt", out: "spec/example_files/input.txt" } }
 
       it "has expected error message" do
         ui.validate
-        expect(ui.errors).to match_array(["output file must not exist"])
+        expect(ui.errors).to match_array([described_class::ERROR_OUTPUT_FILE_FOUND])
       end
 
       it "does not continue after failing validation" do
