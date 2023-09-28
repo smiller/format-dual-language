@@ -10,7 +10,7 @@ RSpec.describe "cli for FileInterface" do
 
   it "displays help if no options selected" do
     stdout, _, _ = Open3.capture3("./reformat")
-    expect(stdout).to include("Reformats dual-language texts")
+    expect(stdout).to include("Reformats tri-language texts")
   end
 
   it "invalid path: returns error message" do
