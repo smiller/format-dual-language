@@ -16,8 +16,8 @@ RSpec.describe "cli for FileInterface" do
   it "invalid path: returns error message" do
     input_file_path = "spec/example_files/macavitys_not_there.txt"
     _, stderr, _ = Open3.capture3("./reformat alternating --in #{input_file_path}")
-    expect(stderr).to include("input file must exist")
-    expect(stderr).to include("-o FILE option for output file required")
+    expect(stderr).to include(Processor::ERROR_INPUT_FILE_NOT_FOUND)
+    expect(stderr).to include(Processor::ERROR_OUTPUT_OPTION_MISSING)
   end
 
   it "happy path: writes correct output file" do
